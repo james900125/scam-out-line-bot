@@ -43,17 +43,18 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
-'''
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text="HA! HA! So funny"))
+	
 	line_bot_api.reply_message(
 		event.reply_token,
 		StickerSendMessage(
 			package_id=event.message.package_id,
 			sticker_id=event.message.sticker_id)
 	)
-'''
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text="HA! HA! So funny"))
+
+
 #url_for('v_contacts',_external=True)
 '''
 @app.route("/")
