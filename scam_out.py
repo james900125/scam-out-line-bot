@@ -23,7 +23,7 @@ handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
 def callback():
 	# get X-Line-Signature header value
 	signature = request.headers['X-Line-Signature']
-
+	print("signature: ", signature)
 	# get request body as text
 	body = request.get_data(as_text=True)
 	app.logger.info("Request body: " + body)
@@ -40,6 +40,18 @@ def handle_message(event):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=str(event.message)))
+
+@handler.add(MessageEvent, message=StickerMessage)
+def handle_sticker_message(event):
+	line_bot_api.reply_message(
+		event.reply_token,
+		StickerSendMessage(
+			package_id=event.message.package_id,
+			sticker_id=event.message.sticker_id)
+	)
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text="HA! HA! So funny"))
 #url_for('v_contacts',_external=True)
 '''
 @app.route("/")
