@@ -25,8 +25,7 @@ def callback():
 	signature = request.headers['X-Line-Signature']
 
 	# get request body as text
-	#body = request.get_data(as_text=True)
-	body = request.get_data()
+	body = request.get_data(as_text=True)
 	app.logger.info("Request body: " + body)
 	# handle webhook body
 	try:
@@ -41,7 +40,7 @@ def handle_message(event):
 	if event.message.type == "text":
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text=event.message.text))
+			TextSendMessage(text=str(event.message.type)))
 	elif event.message.type == "sticker":
 		line_bot_api.reply_message(
 			event.reply_token,
