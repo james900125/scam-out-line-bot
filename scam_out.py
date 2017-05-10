@@ -40,20 +40,7 @@ def handle_message(event):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text=str(event.message)))
-'''
-	if event.message.type == "text":
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text=str(event.message)))
-	elif event.message.type == "sticker":
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text="Ha!! Ha!! So funny!!"))
-	else :
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text=".....。"))
-'''
+#url_for('v_contacts',_external=True)
 '''
 @app.route("/")
 def index():
