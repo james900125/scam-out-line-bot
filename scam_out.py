@@ -40,7 +40,7 @@ def handle_message(event):
 	if event.message.type == "text":
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text=str(event.message.type)))
+			TextSendMessage(text=str(event.message)))
 	elif event.message.type == "sticker":
 		line_bot_api.reply_message(
 			event.reply_token,
