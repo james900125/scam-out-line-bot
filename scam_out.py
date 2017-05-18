@@ -11,7 +11,15 @@ from linebot.exceptions import (
 from linebot.models import (
 	MessageEvent, TextMessage, TextSendMessage, StickerSendMessage, StickerMessage
 )
-
+import msg_classifier_lg
+from msg_classifier_lg import msg_predict
+'''
+import jieba
+import jieba.analyse
+# jieba setup
+jieba.set_dictionary("dict.txt.big")
+jieba.analyse.set_stop_words("stop_words.txt")
+'''
 app = Flask(__name__)
 
 #line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
@@ -37,9 +45,23 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=str(event.message)))
+	result = msg_predict(str(event.message))
+	if result == 0:
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text="chat"))
+		return 'OK'
+	elif result == 1:
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text="objective information"))
+		return 'OK'
+	elif result == 2:
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text="subjective information"))
+		return 'OK'
+	return 'OK'
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
