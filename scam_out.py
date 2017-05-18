@@ -53,7 +53,7 @@ def handle_message(event):
 	res = msg_predict(text)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[res]))
+		TextSendMessage(text=str(text[res])))
 '''
 	if res == 0:
 		line_bot_api.reply_message(
