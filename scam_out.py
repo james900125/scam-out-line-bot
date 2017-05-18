@@ -47,19 +47,20 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	print(event.message.text.encode('utf8'))
-	result = msg_predict(event.message.text.encode('utf8'))
-	if result == 0:
+	#print(event.message.text.encode('utf8'))
+	text = event.message.text.encode('utf8')
+	res = msg_predict(text)
+	if res == 0:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="chat"))
 
-	elif result == 1:
+	elif res == 1:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="objective information"))
 
-	elif result == 2:
+	elif res == 2:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="subjective information"))
@@ -70,13 +71,13 @@ def handle_sticker_message(event):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text="HA! HA! So funny"))
-	
+'''
 	line_bot_api.reply_message(
 		event.reply_token,
 		StickerSendMessage(
 			package_id=event.message.package_id,
 			sticker_id=event.message.sticker_id)
 	)
-
+'''
 if __name__ == "__main__":
 	app.run()

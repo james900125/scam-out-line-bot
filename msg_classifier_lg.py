@@ -13,6 +13,7 @@ class TextMining:
     def __init__(self,file_name):
         self.keyword_dict = None
         self.file_name = file_name
+        self.key_dict = self.get_keyword_dict()
     def get_keyword_dict(self,refresh=False):
         if self.keyword_dict == None or refresh == True:
             if os.path.isfile(self.file_name):
@@ -24,7 +25,7 @@ class TextMining:
                 return 
         return self.keyword_dict
     def _make_ML_X(self,msg_list,print_out=False):
-        key_dict = self.get_keyword_dict()
+        #key_dict = self.get_keyword_dict()
         ML_X = []
         for msg in msg_list:
             tmp = []
@@ -35,9 +36,9 @@ class TextMining:
             if print_out:
                 print 'has_url : ',has_url
                 print 'msg_len : ',msg_len
-            for k in key_dict:
+            for k in self.key_dict:
                 message_jieba = jieba.analyse.extract_tags(msg,0)
-                match = list(set(message_jieba).intersection(key_dict[k]))
+                match = list(set(message_jieba).intersection(self.key_dict[k]))
                 if print_out:
                     print 'match '+k+' : ',','.join(match)
                 tmp.append(len(match))
