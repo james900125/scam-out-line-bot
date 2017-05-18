@@ -9,12 +9,6 @@ import re
 import jieba
 import jieba.analyse
 
-# jieba setup
-jieba.set_dictionary("./archive/dict.txt.big")
-jieba.analyse.set_stop_words("./archive/stop_words.txt")
-clf = joblib.load('./archive/classifier_lg_model.pkl')
-print("Loading model OK!!")
-
 class TextMining:
     def __init__(self,file_name):
         self.keyword_dict = None
@@ -50,12 +44,19 @@ class TextMining:
             ML_X.append(tmp)
         return ML_X
 
+# jieba setup
+jieba.set_dictionary("./archive/dict.txt.big")
+jieba.analyse.set_stop_words("./archive/stop_words.txt")
+clf = joblib.load('./archive/classifier_lg_model.pkl')
+text_min = TextMining('archive/keyword_2.json')
+print("Loading model OK!!")
+
 def msg_predict(msg):
 
     #msg = "新北市警察局土城分局警備隊~關心你！最近FB有一個測年齡的，那個不要去點他，因為只要你點下去，你的資料、照片、姓名…等等，都會給他們使用，請傳下去吧，別讓身邊周遭的朋友受害了！ 新北市警察局土城分局警備隊~關心你！(!?)新版 “身份證算命” 不要玩喔！ 請告訴你的好友要注意， 不法集團利用算命程式，收集身份證字號等資料，他們會要人輸入號碼後算出，千萬別玩，請轉貼分享出去！有毒 ！(NO)千萬別玩！"
 
     # Transforming string to numerical feature vector
-    msg_feature_vector = TextMining('archive/keyword_2.json')._make_ML_X([msg])
+    msg_feature_vector = text_min._make_ML_X([msg])
 
     # Loading trained machine learning model
     #clf = joblib.load('archive/classifier_lg_model.pkl')
