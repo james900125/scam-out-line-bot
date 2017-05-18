@@ -13,6 +13,7 @@ import jieba.analyse
 jieba.set_dictionary("./archive/dict.txt.big")
 jieba.analyse.set_stop_words("./archive/stop_words.txt")
 clf = joblib.load('./archive/classifier_lg_model.pkl')
+print("Loading model OK!!")
 
 class TextMining:
     def __init__(self,file_name):

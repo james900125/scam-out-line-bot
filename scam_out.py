@@ -11,14 +11,16 @@ from linebot.exceptions import (
 from linebot.models import (
 	MessageEvent, TextMessage, TextSendMessage, StickerSendMessage, StickerMessage
 )
-import msg_classifier_lg
+#import msg_classifier_lg
 from msg_classifier_lg import msg_predict
 '''
 import jieba
 import jieba.analyse
+from sklearn.externals import joblib
 # jieba setup
-jieba.set_dictionary("dict.txt.big")
-jieba.analyse.set_stop_words("stop_words.txt")
+jieba.set_dictionary("./archive/dict.txt.big")
+jieba.analyse.set_stop_words("./archive/stop_words.txt")
+clf = joblib.load('./archive/classifier_lg_model.pkl')
 '''
 app = Flask(__name__)
 
@@ -45,7 +47,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	result = msg_predict(str(event.message))
+	result = msg_predict(str(event.message.text))
 	if result == 0:
 		line_bot_api.reply_message(
 			event.reply_token,
@@ -76,12 +78,5 @@ def handle_sticker_message(event):
 			sticker_id=event.message.sticker_id)
 	)
 
-
-#url_for('v_contacts',_external=True)
-'''
-@app.route("/")
-def index():
-	return "<p>Hello World!</p>"
-'''
 if __name__ == "__main__":
 	app.run()
