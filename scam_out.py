@@ -29,6 +29,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('2mxE4Ky4O15Ss5qR9EzfCeFmbKYrm1vdUmNMoeJgzW/vDW6GNowXAtSVJ8AUQsR+Ru3VaOdSIkQfLWXMDcDi4rhrwDfQ5p1eJepEDXq+Z+GwmoOej5ZsmqvhXA/mXJ2zzunzm+VcF9Ws7zoT+oyzXAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
 text = {0:"chat", 1:"objective information", 2:"subjective information"}
+
 @app.route("/callback", methods=['POST'])
 def callback():
 	# get X-Line-Signature header value
@@ -52,7 +53,7 @@ def handle_message(event):
 	res = msg_predict(text)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[res]))
+		TextSendMessage(text=text[int(res)]))
 '''
 	if res == 0:
 		line_bot_api.reply_message(
