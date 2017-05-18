@@ -11,23 +11,16 @@ from linebot.exceptions import (
 from linebot.models import (
 	MessageEvent, TextMessage, TextSendMessage, StickerSendMessage, StickerMessage
 )
-#import msg_classifier_lg
+
 from msg_classifier_lg import msg_predict
-'''
-import jieba
-import jieba.analyse
-from sklearn.externals import joblib
-# jieba setup
-jieba.set_dictionary("./archive/dict.txt.big")
-jieba.analyse.set_stop_words("./archive/stop_words.txt")
-clf = joblib.load('./archive/classifier_lg_model.pkl')
-'''
+
 app = Flask(__name__)
 
 #line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
 #handler = WebhookHandler('YOUR_CHANNEL_SECRET')
 line_bot_api = LineBotApi('2mxE4Ky4O15Ss5qR9EzfCeFmbKYrm1vdUmNMoeJgzW/vDW6GNowXAtSVJ8AUQsR+Ru3VaOdSIkQfLWXMDcDi4rhrwDfQ5p1eJepEDXq+Z+GwmoOej5ZsmqvhXA/mXJ2zzunzm+VcF9Ws7zoT+oyzXAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
+
 class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
 
 @app.route("/callback", methods=['POST'])
@@ -49,39 +42,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	text = event.message.text#.encode('utf8')
-	res = msg_predict(text)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=class_dic[res]))
-'''
-	if res == 0:
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text="chat"))
+		TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
 
-	elif res == 1:
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text="objective information"))
-
-	elif res == 2:
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text="subjective information"))
-'''
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text="HA! HA! So funny"))
-'''
-	line_bot_api.reply_message(
-		event.reply_token,
-		StickerSendMessage(
-			package_id=event.message.package_id,
-			sticker_id=event.message.sticker_id)
-	)
-'''
+
 if __name__ == "__main__":
 	app.run()
