@@ -67,7 +67,7 @@ def msg_predict(msg):
     # 0 : chat 
     # 1 : objective information 
     # 2 : subjective information
-    print msg_class[0]
+    print int(msg_class[0])
 
 
 

@@ -53,18 +53,17 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="chat"))
-		return 'OK'
+
 	elif result == 1:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="objective information"))
-		return 'OK'
+
 	elif result == 2:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text="subjective information"))
-		return 'OK'
-	return 'OK'
+
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
