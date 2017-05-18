@@ -49,11 +49,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	text = event.message.text.encode('utf8')
+	text = event.message.text#.encode('utf8')
 	res = msg_predict(text)
 	line_bot_api.reply_message(
 		event.reply_token,
-		TextSendMessage(text=text[res].encode('ascii')))
+		TextSendMessage(text=text[res]))
 '''
 	if res == 0:
 		line_bot_api.reply_message(
