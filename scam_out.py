@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf8 -*-
 
 from flask import Flask, request, abort
 
@@ -47,8 +47,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	print(event.message.text)
-	result = msg_predict(event.message.text)
+	print(event.message.text.decode('utf8'))
+	result = msg_predict(event.message.text.decode('utf8'))
 	if result == 0:
 		line_bot_api.reply_message(
 			event.reply_token,
