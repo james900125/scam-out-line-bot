@@ -45,15 +45,15 @@ def callback():
 def handle_message(event):
 
 	if event.message.text == "詐騙奧特關閉".decode("utf-8") and event.source.userId not in switch:
-		switch.append(event.source.userId)
-		print("add", event.source.userId)
+		switch.append(event.Source.UserID)
+		print("add", event.Source.UserID)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已關閉，請輸入「詐騙奧特開啟」啟動服務"))
 
 	elif event.message.text == "詐騙奧特開啟".decode("utf-8") and event.source.userId in switch:
-		switch.remove(event.source.userId)
-		print("remove", event.source.userId)
+		switch.remove(event.Source.UserID)
+		print("remove", event.Source.UserID)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已啟動"))
