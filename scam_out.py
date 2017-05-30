@@ -58,12 +58,12 @@ def handle_message(event):
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特服務已啟動"))
 
-	elif event.message.id in switch:
+	elif event.source.user_id in switch:
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已關閉"))
 
-	elif event.message.id not in switch:
+	elif event.source.user_id not in switch:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
