@@ -29,7 +29,7 @@ class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
 def callback():
 	# get X-Line-Signature header value
 	signature = request.headers['X-Line-Signature']
-	print("signature: ", signature)
+	#print("signature: ", signature)
 	# get request body as text
 	body = request.get_data(as_text=True)
 	app.logger.info("Request body: " + body)
@@ -56,7 +56,12 @@ def handle_message(event):
 		print("remove", event.source.user_id)
 		line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage(text="詐騙奧特已啟動"))
+				TextSendMessage(text="詐騙奧特服務已啟動"))
+
+	elif event.message.id in switch:
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text="詐騙奧特已關閉"))
 
 	elif event.message.id not in switch:
 		line_bot_api.reply_message(
