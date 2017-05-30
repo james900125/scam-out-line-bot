@@ -21,6 +21,8 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('2mxE4Ky4O15Ss5qR9EzfCeFmbKYrm1vdUmNMoeJgzW/vDW6GNowXAtSVJ8AUQsR+Ru3VaOdSIkQfLWXMDcDi4rhrwDfQ5p1eJepEDXq+Z+GwmoOej5ZsmqvhXA/mXJ2zzunzm+VcF9Ws7zoT+oyzXAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
 
+switch = []
+
 class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
 
 @app.route("/callback", methods=['POST'])
@@ -42,9 +44,23 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	line_bot_api.reply_message(
-		event.reply_token,
-		TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
+	if event.message.text == "詐騙奧特關閉" and event.message.id not in switch:
+		switch.append(event.message.id)
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text="詐騙奧特已關閉，請輸入「詐騙奧特開啟」啟動服務"))
+
+	elif event.message.text == "詐騙奧特開啟" and event.message.id in switch:
+		switch.remove(event.message.id)
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text="詐騙奧特已啟動"))
+
+	elif event.message.id not in switch:
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
+
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
