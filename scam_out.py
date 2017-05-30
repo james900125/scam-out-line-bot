@@ -44,16 +44,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	if event.message.text == "詐騙奧特關閉".decode("utf-8") and event.source.userid not in switch:
-		switch.append(event.source.userid)
-		print("add", event.source.userid)
+	if event.message.text == "詐騙奧特關閉".decode("utf-8") and event.source.user_id not in switch:
+		switch.append(event.source.user_id)
+		print("add", event.source.user_id)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已關閉，請輸入「詐騙奧特開啟」啟動服務"))
 
-	elif event.message.text == "詐騙奧特開啟".decode("utf-8") and event.source.userid in switch:
-		switch.remove(event.source.userid)
-		print("remove", event.source.userid)
+	elif event.message.text == "詐騙奧特開啟".decode("utf-8") and event.source.user_id in switch:
+		switch.remove(event.source.user_id)
+		print("remove", event.source.user_id)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已啟動"))
