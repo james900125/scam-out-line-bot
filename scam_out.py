@@ -46,7 +46,7 @@ def handle_message(event):
 
 	if isinstance(event.source, SourceGroup):
 		reply_id = event.source.group_id
-	elif isinstance(event.source, SourceRoom)::
+	elif isinstance(event.source, SourceRoom):
 		reply_id = event.source.room_id
 	else:
 		reply_id = event.source.user_id
