@@ -9,7 +9,8 @@ from linebot.exceptions import (
 	InvalidSignatureError
 )
 from linebot.models import (
-	MessageEvent, TextMessage, TextSendMessage, StickerSendMessage, StickerMessage
+	MessageEvent, TextMessage, TextSendMessage, StickerSendMessage, StickerMessage, 
+	SourceUser, SourceGroup, SourceRoom
 )
 
 from msg_classifier_lg import msg_predict
