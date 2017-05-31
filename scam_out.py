@@ -44,10 +44,12 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	if event.source.group_id:
+	if isinstance(event.source, SourceGroup):
 		reply_id = event.source.group_id
-	else:
+	elif isinstance(event.source, SourceRoom)::
 		reply_id = event.source.room_id
+	else:
+		reply_id = event.source.user_id
 
 	if event.message.text == "詐騙奧特關閉".decode("utf-8") and reply_id not in switch:
 		switch.append(reply_id)
