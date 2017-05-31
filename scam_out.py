@@ -44,26 +44,31 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-	if event.message.text == "詐騙奧特關閉".decode("utf-8") and event.source.user_id not in switch:
-		switch.append(event.source.user_id)
-		print("add", event.source.user_id)
+	if event.source.group_id:
+		reply_id = event.source.group_id
+	else:
+		reply_id = event.source.room_id
+
+	if event.message.text == "詐騙奧特關閉".decode("utf-8") and reply_id not in switch:
+		switch.append(reply_id)
+		print("add", reply_id)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已關閉，請輸入「詐騙奧特開啟」啟動服務"))
 
-	elif event.message.text == "詐騙奧特開啟".decode("utf-8") and event.source.user_id in switch:
-		switch.remove(event.source.user_id)
-		print("remove", event.source.user_id)
+	elif event.message.text == "詐騙奧特開啟".decode("utf-8") and reply_id in switch:
+		switch.remove(reply_id)
+		print("remove", reply_id)
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特服務已啟動"))
 
-	elif event.source.user_id in switch:
+	elif reply_id in switch:
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特已關閉"))
 
-	elif event.source.user_id not in switch:
+	elif reply_id not in switch:
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
