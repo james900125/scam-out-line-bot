@@ -5,8 +5,8 @@ import json, re, numpy, jieba
 import jieba.analyse
 import mysql.connector, gensim
 #from nltk.tokenize import word_tokenize 
-from pprint import pprint
-from urllib.request import urlopen
+#from pprint import pprint
+#from urllib.request import urlopen
 from sklearn.externals import joblib
 from collections import OrderedDict
 
