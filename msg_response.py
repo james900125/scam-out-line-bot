@@ -90,7 +90,7 @@ class Msg_response():
         self.dictionary = gensim.corpora.Dictionary(seg_list2)
         corpus = [self.dictionary.doc2bow(gen_doc) for gen_doc in seg_list2]
         self.tf_idf = gensim.models.TfidfModel(corpus)
-        self.sims = gensim.similarities.Similarity('./json_data/', self.tf_idf[corpus], num_features = len(dictionary))
+        self.sims = gensim.similarities.Similarity('./json_data/', self.tf_idf[corpus], num_features = len(self.dictionary))
 
 
     def msg_predict(self, msg):
