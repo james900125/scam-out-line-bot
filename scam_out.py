@@ -13,7 +13,8 @@ from linebot.models import (
 	SourceUser, SourceGroup, SourceRoom
 )
 
-from msg_classifier_lg import msg_predict
+from msg_response.msg_response import Msg_response
+#from msg_classifier_lg import msg_predict
 
 app = Flask(__name__)
 
@@ -74,7 +75,7 @@ def handle_message(event):
 	elif reply_id not in switch:
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(text=class_dic[msg_predict(event.message.text)]))
+			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
 
 
 @handler.add(MessageEvent, message=StickerMessage)
@@ -84,4 +85,8 @@ def handle_sticker_message(event):
 		TextSendMessage(text="HA! HA! So funny"))
 
 if __name__ == "__main__":
+
+	msg = Msg_response()
+	msg.setup()
+	msg.data_prepare()
 	app.run()
