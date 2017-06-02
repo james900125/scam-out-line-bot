@@ -13,7 +13,7 @@ from linebot.models import (
 	SourceUser, SourceGroup, SourceRoom
 )
 
-from msg_response.msg_response import Msg_response
+from msg_response import Msg_response
 #from msg_classifier_lg import msg_predict
 msg = Msg_response()
 msg.setup()
