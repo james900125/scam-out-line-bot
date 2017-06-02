@@ -15,6 +15,9 @@ from linebot.models import (
 
 from msg_response.msg_response import Msg_response
 #from msg_classifier_lg import msg_predict
+msg = Msg_response()
+msg.setup()
+msg.data_prepare()
 
 app = Flask(__name__)
 
@@ -24,6 +27,7 @@ line_bot_api = LineBotApi('2mxE4Ky4O15Ss5qR9EzfCeFmbKYrm1vdUmNMoeJgzW/vDW6GNowXA
 handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
 
 switch = []
+
 
 class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
 
@@ -85,8 +89,4 @@ def handle_sticker_message(event):
 		TextSendMessage(text="HA! HA! So funny"))
 
 if __name__ == "__main__":
-
-	msg = Msg_response()
-	msg.setup()
-	msg.data_prepare()
 	app.run()
