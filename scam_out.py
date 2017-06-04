@@ -29,7 +29,7 @@ handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
 switch = []
 
 
-class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
+#class_dic = {0:"chat", 1:"objective information", 2:"subjective information"}
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -75,7 +75,7 @@ def handle_message(event):
 		if msg.msg_predict(event.message.text) != 1: return 0
 		result, score = msg.compare(event.message.text)
 		print(result, score)
-		if score > 30:
+		if score > 20:
 			line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text=msg.gov_data[result]))
