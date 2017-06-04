@@ -78,7 +78,7 @@ def handle_message(event):
 		if score > 20:
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage(text="政府澄清文:\n" + msg.gov_data[result]))
+				TextSendMessage(text="政府澄清文:" + "\n" + msg.gov_data[result]))
 			return 0
 		line_bot_api.reply_message(
 				event.reply_token,
