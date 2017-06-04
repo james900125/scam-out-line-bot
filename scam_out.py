@@ -82,7 +82,7 @@ def handle_message(event):
 			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
 '''
 	elif reply_id not in switch:
-		if msg.msg_predict(event.message.text) != 1: return -1
+		if msg.msg_predict(event.message.text) != 1: return 0
 		result, score = msg.compare(event.message.text)
 		line_bot_api.reply_message(
 			event.reply_token,
@@ -108,5 +108,6 @@ def handle_sticker_message(event):
 		event.reply_token,
 		TextSendMessage(text="HA! HA! So funny"))
 '''
+
 if __name__ == "__main__":
 	app.run()
