@@ -81,7 +81,7 @@ def handle_message(event):
 	elif reply_id not in switch:
 		if msg.msg_predict(event.message.text) != 1: return 0   #define message 0:chat / 1:objective / 2:subjective
 		result, score = msg.compare(event.message.text)   #searching message is in gov_api or not 
-		print(result, score)
+		print "the message compared result:{} , score:{}".format(result, score)
 		if score > 20:   #message is in gov_api
 			line_bot_api.reply_message(
 				event.reply_token,
