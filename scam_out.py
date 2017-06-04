@@ -79,7 +79,7 @@ def handle_message(event):
 			text_template = TemplateSendMessage(alt_text='Buttons template',
 				template=ButtonsTemplate(
 					title='政府澄清文:',
-					text=msg.gov_data[result]
+					text=str(msg.gov_data[result])
 					)
 				)
 
