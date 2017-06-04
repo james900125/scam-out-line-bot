@@ -118,7 +118,7 @@ class Msg_response():
         doc_bow = self.dictionary.doc2bow(jieba.analyse.extract_tags(origin_data, 100))
         doc_tf_idf = self.tf_idf[doc_bow]
         result = numpy.argmax(self.sims[doc_tf_idf])
-        return result, self.sims[doc_tf_idf][result]
+        return result, self.sims[doc_tf_idf][result] * 100
 
 '''
 	s = 0

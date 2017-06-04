@@ -70,7 +70,7 @@ def handle_message(event):
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特服務已啟動"))
-
+'''
 	elif reply_id in switch:
 		line_bot_api.reply_message(
 				event.reply_token,
@@ -80,13 +80,33 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
+'''
+	elif reply_id not in switch:
+		if msg.msg_predict(event.message.text) != 1: return -1
+		result, score = msg.compare(event.message.text)
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=str(result)))
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=str(score)))
+		if score >= 30: 
+			line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text=msg.gov_data[0]))
 
+'''
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
+'''
 
+'''
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
 	line_bot_api.reply_message(
 		event.reply_token,
 		TextSendMessage(text="HA! HA! So funny"))
-
+'''
 if __name__ == "__main__":
 	app.run()
