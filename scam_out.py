@@ -76,16 +76,9 @@ def handle_message(event):
 		result, score = msg.compare(event.message.text)
 		print(result, score)
 		if score > 20:
-			text_template = TemplateSendMessage(alt_text='Buttons template',
-				template=ButtonsTemplate(
-					title='政府澄清文:',
-					text=str(msg.gov_data[result])
-					)
-				)
-
 			line_bot_api.reply_message(
 				event.reply_token,
-				text_template)
+				TextSendMessage(text=u'此文章為謠言!\n政府澄清文:\n' + msg.gov_data[0]))
 
 			return 0
 		line_bot_api.reply_message(
