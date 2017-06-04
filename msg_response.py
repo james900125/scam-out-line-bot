@@ -47,31 +47,33 @@ class TextMining:
 class Msg_response():
 
     def __init__(self):
-        self.gov_data = self.connect_sql()
+        self.origin_data, self.gov_data = self.connect_sql()
         self.clf = joblib.load('./archive/classifier_lg_model.pkl')
         self.tf_idf = None
         self.dictionary = None
         self.sims = None
 
     def connect_sql(self):#連結資料庫
-        gov_data = []
+
         try:
             cnx = mysql.connector.connect(user='root', password='rumor5566',
                                       host='140.118.109.32',
                                       port='6603',
                                       database='ml')
+            gov_data = []
+            origin_data = []
             cursor = cnx.cursor()
             query = ("SELECT content,original FROM data")#選取資料庫欄位
             cursor.execute(query)
             for content,original in cursor:
                 gov_data.append(content)
-                #origin_data.append(original)
+                origin_data.append(original)
             #with open('./json_data/Chen_family_2.json', encoding = 'utf8') as data_file: 
                 #original_data = json.load(data_file)
             cursor.close()
             cnx.close()
             print("Connecting MySQL Successful!!!")
-            return gov_data
+            return origin_data, gov_data
         except:
             print("Connecting MySQL fail!!!")
             return 0
@@ -112,10 +114,10 @@ class Msg_response():
         return int(msg_class[0])
 
 
-    def compare(self, origin_data):	#gov_data為list，需放入政府的資料；origin_data為list，需放入欲比對的資料；index為origin_data的index
+    def compare(self, original_data):	#gov_data為list，需放入政府的資料；origin_data為list，需放入欲比對的資料；index為origin_data的index
 
-        #doc = jieba.analyse.extract_tags(origin_data, 100)
-        doc_bow = self.dictionary.doc2bow(jieba.analyse.extract_tags(origin_data, 100))
+        #doc = jieba.analyse.extract_tags(original_data, 100)
+        doc_bow = self.dictionary.doc2bow(jieba.analyse.extract_tags(original_data, 100))
         doc_tf_idf = self.tf_idf[doc_bow]
         result = numpy.argmax(self.sims[doc_tf_idf])
         return result, self.sims[doc_tf_idf][result] * 100
