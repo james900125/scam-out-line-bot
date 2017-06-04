@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- encoding: utf-8 -*-
 
 from flask import Flask, request, abort
 
@@ -18,7 +18,7 @@ from msg_response import Msg_response
 msg = Msg_response()
 msg.setup()
 msg.data_prepare()
-
+#print(str(msg.gov_data).encode("utf-8"))
 app = Flask(__name__)
 
 #line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
@@ -70,17 +70,7 @@ def handle_message(event):
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="詐騙奧特服務已啟動"))
-'''
-	elif reply_id in switch:
-		line_bot_api.reply_message(
-				event.reply_token,
-				TextSendMessage(text="詐騙奧特已關閉"))
 
-	elif reply_id not in switch:
-		line_bot_api.reply_message(
-			event.reply_token,
-			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
-'''
 	elif reply_id not in switch:
 		if msg.msg_predict(event.message.text) != 1: return 0
 		result, score = msg.compare(event.message.text)
@@ -94,7 +84,17 @@ def handle_message(event):
 			line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text=msg.gov_data[0]))
+'''
+	elif reply_id in switch:
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text="詐騙奧特已關閉"))
 
+	elif reply_id not in switch:
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text=class_dic[msg.msg_predict(event.message.text)]))
+'''
 '''
 		line_bot_api.reply_message(
 			event.reply_token,
