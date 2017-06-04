@@ -78,7 +78,7 @@ def handle_message(event):
 		if score > 30:
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage(text=msg.gov_data[0]))
+				TextSendMessage(text=msg.gov_data[result]))
 '''
 		line_bot_api.reply_message(
 			event.reply_token,
