@@ -78,7 +78,13 @@ def handle_message(event):
 		if score > 20:
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage(text=msg.gov_data[result]))
+				TextSendMessage(text="政府澄清文:\n" + msg.gov_data[result]))
+			return 0
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text="上述文章有潛在謠言嫌疑"))
+
+
 '''
 		line_bot_api.reply_message(
 			event.reply_token,
