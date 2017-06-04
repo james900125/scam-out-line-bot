@@ -85,7 +85,7 @@ def handle_message(event):
 		if score > 20:   #message is in gov_api
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage(text=u'此文章為捏造的謠言!\n政府已有發出澄清文:\n' + msg.gov_data[0]))
+				TextSendMessage(text=u'此文章為捏造的謠言!\n政府已有發出澄清文:\n' + msg.gov_data[result]))
 			return 0
 
 		#message is not in gov_api
