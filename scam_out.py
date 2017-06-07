@@ -93,7 +93,5 @@ def handle_message(event):
 				event.reply_token,
 				TextSendMessage(text="此文章有潛在謠言嫌疑，請進行查證，避免上當受騙"))
 
-
-
 if __name__ == "__main__":
 	app.run()
