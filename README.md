@@ -3,7 +3,7 @@ Line bot for Open Data Contest
 
 需要把'YOUR_CHANNEL_ACCESS_TOKEN'和'YOUR_CHANNEL_SECRET'換成自己Linebot的
 
-這Linebot是佈署在Heroku上執行，要更改程式的話要先安裝Heroku CLI，連結如下：
+這Linebot是佈署在Heroku上執行，要更新程式碼執行的話要先安裝Heroku CLI，連結如下：
 https://devcenter.heroku.com/articles/heroku-cli#download-and-install
 
 使用命令提示字元，Heroku CLI操作如下：
