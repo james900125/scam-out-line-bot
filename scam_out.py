@@ -22,10 +22,9 @@ msg.data_prepare()
 
 app = Flask(__name__)
 
-#line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
-#handler = WebhookHandler('YOUR_CHANNEL_SECRET')
-line_bot_api = LineBotApi('2mxE4Ky4O15Ss5qR9EzfCeFmbKYrm1vdUmNMoeJgzW/vDW6GNowXAtSVJ8AUQsR+Ru3VaOdSIkQfLWXMDcDi4rhrwDfQ5p1eJepEDXq+Z+GwmoOej5ZsmqvhXA/mXJ2zzunzm+VcF9Ws7zoT+oyzXAdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('38a504945e12d5a6bd5902af2ac3a4cf')
+line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
+handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+
 
 switch = []
 
