@@ -103,7 +103,7 @@ def handle_message(event):
 		#message is not in gov_api, 檢查可疑訊息資料庫
 		msg.data_prepare_suspect()      
 		result_suspect, score_suspect = msg.compare_suspect(event.message.text)
-		print "suspect db compared result:{} , score:{}".format(result, score)
+		print "suspect db compared result:{} , score:{}".format(result_suspect, score_suspect)
 		if len(msg.suspect_data) > 0 and score_suspect > 20: #若已收錄該則可疑訊息，更新 db 的 count 欄位
 			msg.update_suspect(result_suspect) 
 		else:
