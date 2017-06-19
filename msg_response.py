@@ -65,6 +65,7 @@ class Msg_response():
                                       database='ml')
             gov_data = []
             origin_data = []
+            suspect_data = []
             cursor = cnx.cursor()
             query = ("SELECT content,original FROM data")#選取資料庫欄位
             cursor.execute(query)
