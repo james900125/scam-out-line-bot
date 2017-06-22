@@ -102,19 +102,20 @@ def handle_message(event):
 				TextSendMessage(text=u'此文章為捏造的謠言!\n政府已有發出澄清文:\n' + msg.gov_data[result]))
 			return 0
 
-		#message is not in gov_api, 檢查可疑訊息資料庫
-		msg.data_prepare_suspect()      
-		result_suspect, score_suspect = msg.compare_suspect(event.message.text)
-		print "suspect db compared result:{} , score:{}".format(result_suspect, score_suspect)
-		if len(msg.suspect_data) > 0 and score_suspect > 60: #若已收錄該則可疑訊息，更新 db 的 count 欄位
-			msg.update_suspect(result_suspect) 
-		else:
-			msg.insert_suspect(event.message.text) #若還沒收錄，則新增一筆資料至db
-
 		#message is not in gov_api 的統一回覆
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="此文章有潛在謠言嫌疑，請進行查證，避免上當受騙"))
+
+		#message is not in gov_api, 檢查可疑訊息資料庫
+		if len(msg.suspect_data) > 0:
+			msg.data_prepare_suspect()      
+			result_suspect, score_suspect = msg.compare_suspect(event.message.text)
+			print "suspect db compared result:{} , score:{}".format(result_suspect, score_suspect)
+			if score_suspect > 60: #若已收錄該則可疑訊息，更新 db 的 count 欄位
+				msg.update_suspect(result_suspect) 
+				return
+		msg.insert_suspect(event.message.text) #若還沒收錄，則新增一筆資料至db
 
 if __name__ == "__main__":
 	app.run()
