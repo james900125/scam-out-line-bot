@@ -6,6 +6,7 @@ import jieba.analyse
 import mysql.connector, gensim
 from sklearn.externals import joblib
 from collections import OrderedDict
+import math
 
 class TextMining:
     def __init__(self,file_name):
