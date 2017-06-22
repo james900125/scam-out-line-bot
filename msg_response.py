@@ -103,7 +103,7 @@ class Msg_response():
         self.tf_idf = gensim.models.TfidfModel(corpus)
         self.sims = gensim.similarities.Similarity('./json_data/', self.tf_idf[corpus], num_features = len(self.dictionary))
 
-    def custom_wglobal(df, D): # Custom_wglobal method for below gensim.models.TfidfModel to handle the situation where suspect DB only has one document
+    def custom_wglobal(self, df, D): # Custom_wglobal method for below gensim.models.TfidfModel to handle the situation where suspect DB only has one document
         if D == 1:
             return 1
         return math.log(D/float(df),2)
