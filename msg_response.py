@@ -115,7 +115,7 @@ class Msg_response():
             seg_list2.append(seg_list)#斷詞加入list
         self.dictionary_suspect = gensim.corpora.Dictionary(seg_list2)
         corpus = [self.dictionary_suspect.doc2bow(gen_doc) for gen_doc in seg_list2]
-        self.tf_idf_suspect = gensim.models.TfidfModel(corpus, wglobal=custom_wglobal)
+        self.tf_idf_suspect = gensim.models.TfidfModel(corpus, wglobal=self.custom_wglobal)
         self.sims_suspect = gensim.similarities.Similarity('./json_data/', self.tf_idf_suspect[corpus], num_features = len(self.dictionary_suspect))
 
     def msg_predict(self, msg):   #define message information type
