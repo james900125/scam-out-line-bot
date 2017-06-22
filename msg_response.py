@@ -103,6 +103,11 @@ class Msg_response():
         self.tf_idf = gensim.models.TfidfModel(corpus)
         self.sims = gensim.similarities.Similarity('./json_data/', self.tf_idf[corpus], num_features = len(self.dictionary))
 
+    def custom_wglobal(df, D): # Custom_wglobal method for below gensim.models.TfidfModel to handle the situation where suspect DB only has one document
+        if D == 1:
+            return 1
+        return math.log(D/float(df),2)
+
     def data_prepare_suspect(self):  #compare text prepare suspect preprocessing
         seg_list2=[]
         for index in range(len(self.suspect_data)):
@@ -110,7 +115,7 @@ class Msg_response():
             seg_list2.append(seg_list)#斷詞加入list
         self.dictionary_suspect = gensim.corpora.Dictionary(seg_list2)
         corpus = [self.dictionary_suspect.doc2bow(gen_doc) for gen_doc in seg_list2]
-        self.tf_idf_suspect = gensim.models.TfidfModel(corpus)
+        self.tf_idf_suspect = gensim.models.TfidfModel(corpus, wglobal=custom_wglobal)
         self.sims_suspect = gensim.similarities.Similarity('./json_data/', self.tf_idf_suspect[corpus], num_features = len(self.dictionary_suspect))
 
     def msg_predict(self, msg):   #define message information type
@@ -139,6 +144,7 @@ class Msg_response():
         doc_tf_idf = self.tf_idf[doc_bow]
         result = numpy.argmax(self.sims[doc_tf_idf])
         return result, self.sims[doc_tf_idf][result] * 100  #回傳匹配結果
+
 
     def compare_suspect(self, suspect_data): #suspesct_data需放入欲比對的字串
 
