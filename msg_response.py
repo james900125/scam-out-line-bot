@@ -161,7 +161,7 @@ class Msg_response():
         cnx = mysql.connector.connect(user="root", password="rumor5566",port=6603,
                               host="140.118.109.32",database="ml")
         cursor = cnx.cursor()
-        query = ("SELECT id FROM suspect ORDER BY ID LIMIT compare_result,1")
+        query = ("SELECT id FROM suspect ORDER BY ID LIMIT "+str(compare_result)+",1")
         _id_list = []
         cursor.execute(query)
         for _id in cursor:
