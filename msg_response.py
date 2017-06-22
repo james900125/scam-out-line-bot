@@ -47,7 +47,7 @@ class TextMining:
 class Msg_response():
 
     def __init__(self):
-        self.origin_data, self.gov_data, self.suspect_data = self.connect_sql()
+        self.origin_data, self.gov_data, self.suspect_data = [None for i in range(3)]
         self.clf = joblib.load('./archive/classifier_lg_model.pkl')
         self.tf_idf = None
         self.dictionary = None
@@ -81,7 +81,8 @@ class Msg_response():
             cursor.close()
             cnx.close()
             print("Connecting MySQL Successful!!!")
-            return origin_data, gov_data, suspect_data
+            self.origin_data, self.gov_data, self.suspect_data = origin_data, gov_data, suspect_data
+            return 
         except:
             print("Connecting MySQL fail!!!")
             return 0
@@ -156,11 +157,16 @@ class Msg_response():
         cursor.close()
         cnx.close()    
 
-    def update_suspect(self,suspect_idx):  #更新可疑訊息count
+    def update_suspect(self,compare_result):  #更新可疑訊息count
         cnx = mysql.connector.connect(user="root", password="rumor5566",port=6603,
                               host="140.118.109.32",database="ml")
         cursor = cnx.cursor()
-        suspect_idx = str(suspect_idx+1)
+        query = ("SELECT id FROM suspect ORDER BY ID LIMIT compare_result,1")
+        _id_list = []
+        cursor.execute(query)
+        for _id in cursor:
+            _id_list.append(_id[0])
+        suspect_idx = str(_id_list[0])
         update_suspect = "UPDATE suspect SET count=count+'1' WHERE id="+suspect_idx
         cursor.execute(update_suspect)
         cnx.commit()    

@@ -21,7 +21,7 @@ from msg_response import Msg_response
 #### Data Prepare ###
 msg = Msg_response()
 msg.setup()
-msg.data_prepare()
+
 
 app = Flask(__name__)
 
@@ -92,6 +92,8 @@ def handle_message(event):
 
 	elif reply_id not in switch:
 		if msg.msg_predict(event.message.text) != 1: return 0   #define message 0:chat / 1:objective / 2:subjective
+		msg.connect_sql()
+		msg.data_prepare()
 		result, score = msg.compare(event.message.text)   #searching message is in gov_api or not 
 		print "165 api compared result:{} , score:{}".format(result, score)
 		if score > 20:   #message is in gov_api
