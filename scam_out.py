@@ -2,6 +2,9 @@
 
 from flask import Flask, request, abort
 
+import os
+import sys
+
 from linebot import (
 	LineBotApi, WebhookHandler
 )
@@ -18,12 +21,22 @@ from msg_response import Msg_response
 #### Data Prepare ###
 msg = Msg_response()
 msg.setup()
-msg.data_prepare()
+
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
-handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+# get channel_secret and channel_access_token from your environment variable
+channel_secret = os.environ.get('LINE_CHANNEL_SECRET', None)
+channel_access_token = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', None)
+if channel_secret is None:
+    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+    sys.exit(1)
+if channel_access_token is None:
+    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    sys.exit(1)
+    
+line_bot_api = LineBotApi(channel_access_token)
+handler = WebhookHandler(channel_secret)
 
 
 switch = []
@@ -79,18 +92,30 @@ def handle_message(event):
 
 	elif reply_id not in switch:
 		if msg.msg_predict(event.message.text) != 1: return 0   #define message 0:chat / 1:objective / 2:subjective
+		msg.connect_sql()
+		msg.data_prepare()
 		result, score = msg.compare(event.message.text)   #searching message is in gov_api or not 
-		print "the message compared result:{} , score:{}".format(result, score)
+		print "165 api compared result:{} , score:{}".format(result, score)
 		if score > 20:   #message is in gov_api
 			line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text=u'此文章為捏造的謠言!\n政府已有發出澄清文:\n' + msg.gov_data[result]))
 			return 0
 
-		#message is not in gov_api
+		#message is not in gov_api 的統一回覆
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage(text="此文章有潛在謠言嫌疑，請進行查證，避免上當受騙"))
+
+		#message is not in gov_api, 檢查可疑訊息資料庫
+		if len(msg.suspect_data) > 0:
+			msg.data_prepare_suspect()      
+			result_suspect, score_suspect = msg.compare_suspect(event.message.text)
+			print "suspect db compared result:{} , score:{}".format(result_suspect, score_suspect)
+			if score_suspect > 60: #若已收錄該則可疑訊息，更新 db 的 count 欄位
+				msg.update_suspect(result_suspect) 
+				return
+		msg.insert_suspect(event.message.text) #若還沒收錄，則新增一筆資料至db
 
 if __name__ == "__main__":
 	app.run()
